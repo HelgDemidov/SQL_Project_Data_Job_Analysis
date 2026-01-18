@@ -682,5 +682,20 @@ Questions to answer
     Optimal may be defined as simultaneously high-demand AND high-paying
 */
 
+/*
+Github repository created
+Termonology:
+Push Changes:
+Uploads local repository content (changes) to a remote repository (e.g. Github)
+Push Changes are used after committing changes I want to share with others or save them remotely
+To Push any changes made on my local repository to Github, click Push origin in Github Desktop 
+and then Push to update my remote repository. 
+I shouldn't forget to create a summary description of my changes
+
+Pull Changes:
+Pull - downloads changes from a remote (e.g. Github) repository to my local repository
+Pull is used to uodate my local repository with changes made by myself or others in a remote repository
+To pull any changes made on Github to my local repository, I need to click Fetch origin in GitHub Desktop
+and then Pull to update my local copy of the repository
 
 
