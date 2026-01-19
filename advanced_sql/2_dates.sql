@@ -5,10 +5,237 @@ Date Handling
 3. EXTRACT - allows to get specific date parts (year, month, day)
 */
 
-SELECT job_posted_date
-FROM job_postings_fact
+SELECT 
+    job_posted_date
+FROM 
+    job_postings_fact
 LIMIT 10; 
 
+/* Training query
+to extract some data on Data Engineers. 
+The tutorial course query is focused on Data Analyst, 
+but I decided to proceed with Data Engineer. */ 
+
+SELECT
+	job_title_short,
+    job_location, 
+    job_via,
+    salary_year_avg
+FROM 
+	job_postings_fact
+WHERE 
+    salary_year_avg >= 90000 -- Better say < 900000
+ORDER BY 
+	salary_year_avg DESC
+LIMIT (30*30)/0.01; -- Just playing around with arithmetic operators
+
+-- This is the first lesson I'm actually following thorugh and I think I'm starting to understand the basics of SQL. 
+
+-- Practice problem 1, timecode 33:47: Get the unique job locations in the job_postings_fact table. List in alphabetical order
+
+SELECT 
+    DISTINCT job_location,
+    job_title_short,
+    salary_year_avg
+FROM 
+	job_postings_fact
+WHERE -- Additional condition to make the result better looking and more informative
+	job_location <> NULL
+ORDER BY 
+	job_location ASC;
+    
+/* Practice problem 2, timecode 33:47:
+In the job_postings_fact table get the columns job_id, job_title_short, job_location and job_via. Order it in ascending order by job_location. */    
+
+SELECT 
+	job_id, 
+	job_title_short, 
+    job_location,
+    job_via
+FROM 
+	job_postings_fact
+WHERE -- Additional condition to make the result better looking and more informative
+	job_location NOT NULL 
+ORDER BY 
+	job_location ASC;   
+
+/* Practice problem 3, timecode 33:47:
+In the job_postings_fact table get the columns job_id, job_title_short, job_location, job_via and salary_year_avg. 
+And only look at rows where job_title_short is 'Data Engineer'. */ 
+
+SELECT 
+	job_id, 
+	job_title_short, 
+    job_location,
+    job_via, 
+    salary_year_avg
+FROM 
+	job_postings_fact
+WHERE 
+	job_title_short = 'Data Engineer'
+ORDER BY -- Additional condition to make the result better looking and more informative
+	salary_year_avg ASC;
+
+SELECT 
+	job_id, 
+	job_title_short, 
+    job_via,
+    salary_year_avg
+FROM 
+	job_postings_fact
+WHERE 
+	salary_year_avg BETWEEN 80000.5 AND 120000.5
+    AND job_title_short IN ('Data Engineer', 'Data Analyst', 'Data Scientist')
+
+ORDER BY 
+	salary_year_avg DESC;
+
+/* COMPARISONS Practice Problems (Exercises)
+Practical Problem 1.
+In the job_postings_job_postings_fact table get the columns job_id, job_title_short, job_location, job_via and salary_year_avg.
+Only return rows where job_location is in 'Tampa, FL'.*/
+
+SELECT 
+	job_id, 
+	job_title_short, 
+    job_location,
+    job_via, 
+    salary_year_avg
+FROM 
+	job_postings_fact
+WHERE 
+	job_location = 'Tampa, FL'
+ORDER BY -- Additional condition to make the result better looking and more informative
+	salary_year_avg ASC;
+    
+/* Practical Problem 2.
+In the job_postings_job_postings_fact table get the columns job_id, job_title_short, job_location, job_via and salary_year_avg. Only return 'Full-Time' jobs. 
+Hint: look at the job_schedule_type column. */
+
+SELECT 
+	job_id, 
+	job_title_short, 
+    job_location,
+    job_via, 
+    salary_year_avg
+FROM 
+	job_postings_fact
+WHERE 
+	job_schedule_type IN ('Full-time')
+ORDER BY -- Additional condition to make the result better looking and more informative
+	salary_year_avg;
+    
+/* Practical Problem 3.
+In the job_postings_job_postings_fact table get the columns job_id, job_title_short, job_location, job_via and salary_year_avg.
+Only look at job that are not 'Part-time' jobs. 
+Hint: look at the job_schedule_type column. */
+
+SELECT 
+	job_id, 
+	job_title_short,
+    job_location,
+    job_via, 
+    salary_year_avg	
+FROM 
+	job_postings_fact
+WHERE NOT
+	job_schedule_type IN ('Part-time', 'Full-time and Part-time', 'Full-time, Part-time, and Internship') -- Additional condition: excluded all job formats including 'Part-time' option
+ORDER BY -- Additional condition to make the result better looking and more informative
+	salary_year_avg ASC;
+
+/* Practical Problem 4.
+In the job_postings_fact table get the columns job_id, job_title_short, job_location, job_via and salary_year_avg.
+Only look at job that are not posted via LinkedIn. */
+
+SELECT 
+	job_id, 
+	job_title_short,
+    job_location,
+    job_via, 
+    salary_year_avg	
+FROM 
+	job_postings_fact
+WHERE NOT
+	job_via IN ('via LinkedIn') 
+ORDER BY -- Additional condition to make the result better looking and more informative
+	salary_year_avg ASC;
+    
+/* Practical Problem 5.
+In the job_postings_fact table only get jobs that have average year salary of $65000 or greater. 
+Also get the job_id, job_title_short, job_location, job_via and salary_year_avg columns. */
+
+SELECT 
+	job_id, 
+	job_title_short,
+    job_location,
+    job_via, 
+    salary_year_avg	
+FROM 
+	job_postings_fact
+WHERE 
+	salary_year_avg >= 65000
+ORDER BY 
+	salary_year_avg ASC;
+
+/* Practical Problem 6.
+In the job_postings_fact table only get jobs that have average year salary greater than $55000. 
+Also get the job_id, job_title_short, job_location, job_via and salary_year_avg columns. */
+
+SELECT 
+	job_id, 
+	job_title_short,
+    job_location,
+    job_via, 
+    salary_year_avg	
+FROM 
+	job_postings_fact
+WHERE 
+	salary_year_avg > 55000
+ORDER BY 
+	salary_year_avg ASC;
+ 
+ /* Practical Problem 7.
+In the job_postings_fact table only get jobs that have average year salary less than $110000. 
+Also get the job_id, job_title_short, job_location, job_via and salary_year_avg columns. */
+
+SELECT 
+	job_id, 
+	job_title_short,
+    job_location,
+    job_via, 
+    salary_year_avg	
+FROM 
+	job_postings_fact
+WHERE 
+	salary_year_avg < 110000
+ORDER BY 
+	salary_year_avg DESC;
+    
+ /* Practical Problem 1 [time code 41:25]
+ Get job details for both 'Data Analyst' or 'Business Analyst' positions: 
+ 	For 'Data Analyst' - only the jobs > $100k;
+    For 'Business Analyst' - only the jobs > $70k. 
+Only include jobs located in EITHER: 
+	'Boston, MA' 
+    'Anywhere' (i.e. remote jobs) */ 
+    
+SELECT 
+	job_id, 
+	job_title_short,
+    job_location,
+    job_via, 
+    salary_year_avg	
+FROM 
+	job_postings_fact
+WHERE 
+	job_location IN ('Boston, MA', 'Anywhere') AND
+    ( -- Another level of abstraction is introduced in order to enable ITERATION in meeting the task conditions
+      (job_title_short = 'Data Analyst' AND salary_year_avg > 100000) OR
+    (job_title_short = 'Business Analyst' AND salary_year_avg > 70000)
+      ) -- The parenthesis ends here - and now all conditions are met. ITERATION IS THE KEY!
+ORDER BY 
+	salary_year_avg DESC;
+    
 SELECT 
     '2023-02-19'::DATE, 
     '123'::INTEGER, 
@@ -162,7 +389,7 @@ WHERE
         (EXTRACT(MONTH FROM job_posted_date AT TIME ZONE 'America/New_York') BETWEEN 4 AND 6) AND
         EXTRACT(YEAR FROM job_posted_date AT TIME ZONE 'America/New_York') = 2023
 GROUP BY 1
-ORDER BY 2 DESC;
+ORDER BY 2 DESC; -- I can use numbers instead of column names here, the PostgreSQL assumes that 1 = c,name, 2 = COUNT(*)
 
 /* 
 Timecode 2:20:30
