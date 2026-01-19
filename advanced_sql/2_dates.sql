@@ -697,5 +697,7 @@ Pull - downloads changes from a remote (e.g. Github) repository to my local repo
 Pull is used to uodate my local repository with changes made by myself or others in a remote repository
 To pull any changes made on Github to my local repository, I need to click Fetch origin in GitHub Desktop
 and then Pull to update my local copy of the repository
+*/ 
+
 
 
