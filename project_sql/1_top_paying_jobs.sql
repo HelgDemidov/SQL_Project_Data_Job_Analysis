@@ -2,7 +2,7 @@
 Time Code 3:15:00
 Task 1: Identifying top-paying Data Engineer jobs in the market
 Subtasks:
-    1) Identify the top-10 highest=paying Data Engineer jobs that are available remotely. 
+    1) Identify the top-10 highest-paying Data Engineer jobs that are available remotely. 
     2) Refine the data selection of job postings with unspecified salaries (NULLs)
     3) [MY OWN]: derive additional statistical insights into top-paying Data Engineer jobs [TO BE SPECIFIED LATER]
 Reasons:
@@ -39,3 +39,85 @@ GROUP BY
     p.salary_year_avg
 ORDER BY p.salary_year_avg DESC
 LIMIT 10; 
+
+/*
+Additional tasks for the dataset:
+    1. What is the share (percentile) of Data Engineer positions in the whole dataset of job postings?
+    2. What is the respective share of high, medium and low salary Data Engineer positions?
+    3. What is the average AND median salary for Data Engineer roles? 
+        3.2. How does it correlate with the median salary for all positions in the dataset?
+        3.3. ...
+*/
+
+/*
+Additional Question (AQ) 1: 
+Find share of DE positions among all job postings
+Additional conditions:
+    a) No jobs without yearly salary data
+    b) Not strictly Data Engineer but also vatiations (Senior, Lead, etc.)
+*/
+
+WITH total_jobs AS (
+    SELECT 
+        COUNT(*) AS total_postings
+    FROM job_postings_fact
+   -- WHERE salary_year_avg IS NOT NULL
+),
+    DE_jobs AS (
+    SELECT 
+        COUNT(*) AS DE_postings 
+    FROM job_postings_fact
+    WHERE -- salary_year_avg IS NOT NULL AND
+        job_title_short LIKE '%Data Engineer%' 
+    )
+SELECT
+    DE_postings,
+    total_postings,
+    ROUND((DE_postings::numeric / total_postings) * 100, 3) || ' %' AS DE_share_percent
+FROM
+    total_jobs, 
+    DE_jobs;
+
+/*
+Question 2:
+    Find the number of open positions for all remote job postings
+    Present their shares (percentiles) to all remote job postings
+    Identify skills associated with such job postings (using STRING_AGG)
+*/
+
+WITH remote_jobs AS (
+    SELECT 
+        p.job_title_short,
+        COUNT(*) AS remote_postings
+    FROM job_postings_fact AS p
+    WHERE 
+        p.job_work_from_home = true
+    GROUP BY p.job_title_short
+),
+
+total_remote_jobs AS (
+    SELECT COUNT(*) AS total_remote_postings
+    FROM job_postings_fact
+    WHERE job_work_from_home = true
+)
+
+SELECT 
+    rj.job_title_short,
+    rj.remote_postings,
+    ROUND((rj.remote_postings::numeric / tj.total_remote_postings) * 100, 3) || '%' AS job_share,
+    STRING_AGG(DISTINCT s.skills, ' / ') AS top_skills
+FROM 
+    remote_jobs AS rj 
+        CROSS JOIN total_remote_jobs AS tj
+        LEFT JOIN job_postings_fact p ON 
+            rj.job_title_short = p.job_title_short AND
+            p.job_work_from_home = true
+        LEFT JOIN skills_job_dim sj ON
+            p.job_id = sj.job_id
+        LEFT JOIN skills_dim s ON 
+            sj.skill_id = s.skill_id 
+GROUP BY
+    rj.job_title_short,
+    rj.remote_postings,
+    tj.total_remote_postings
+ORDER BY (rj.remote_postings::numeric / tj.total_remote_postings) * 100 DESC;

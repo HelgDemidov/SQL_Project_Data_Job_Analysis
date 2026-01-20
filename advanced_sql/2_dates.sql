@@ -901,8 +901,8 @@ If I look for a job: I can not only use this project to showcase experience but 
 
 /* Time code 3:00:55
 Questions to answer
-1. What are the top=paying jobs for my role?
-2. What are the skills required for those top=paying roles?
+1. What are the top-paying jobs for my role?
+2. What are the skills required for those top-paying roles?
 3. What are the most demanded skills for the role I'm seeking?
 4. What are the top skills for my role based  on salary?
 5. What are the optimal skills to learn based on my specific goals and career interests?
@@ -925,6 +925,3 @@ Pull is used to uodate my local repository with changes made by myself or others
 To pull any changes made on Github to my local repository, I need to click Fetch origin in GitHub Desktop
 and then Pull to update my local copy of the repository
 */ 
-
-
-
