@@ -1,14 +1,19 @@
 /*
 Time Code 3:15:00
-Question 1: Identify top-paying Data Engineer jobs in the market
-Subtasks:
-    1) Identify the top-10 highest-paying Data Engineer jobs that are available remotely. 
-    2) Refine the data selection of job postings with unspecified salaries (NULLs)
-    3) [MY OWN]: derive additional statistical insights into top-paying Data Engineer jobs [TO BE SPECIFIED LATER]
+Question 1 (Q1): Identify top-paying Data Engineer jobs in the market & gather statistical insights into them
+Subquestions:
+    Q1A: Identify the top-10 highest-paying Data Engineer jobs that are available remotely
+    Q1B: Refine the data selection of job postings with unspecified salaries (NULLs)
+    Q1C: What is the share (percentile) of Data Engineer positions in the whole dataset of job postings?
+    Q1D: What is the respective share of high, medium and low salary Data Engineer positions?
+    Q1E: What is the average AND median salary for Data Engineer roles?
+    1QF: Find the number and respective share of open positions for all remote job postings
 Reasons:
     - to highlight top-paying job opportunities for Data Engineer (and related) roles; 
-    - to gather insights into employment opportunities I pursue based on real data. 
+    - to gather insights into employment opportunities I pursue based on real data
 */
+
+-- Q1A-Q1B Solution:
 
 SELECT 
     p.job_id AS id,
@@ -36,21 +41,10 @@ GROUP BY
 ORDER BY p.salary_year_avg DESC
 LIMIT 10; 
 
-/*
-Additional Questions (AQs):
-    1. What is the share (percentile) of Data Engineer positions in the whole dataset of job postings?
-    2. What is the respective share of high, medium and low salary Data Engineer positions?
-    3. What is the average AND median salary for Data Engineer roles? 
-        3.2. How does it correlate with the median salary for all positions in the dataset?
-        3.3. ...
-*/
-
-/*
-Additional Question (AQ) 1: 
-Find share of DE positions among all job postings
+/* Q1C solution:
 Additional conditions:
-    a) No jobs without yearly salary data
-    b) Not strictly Data Engineer but also vatiations (Senior, Lead, etc.)
+    - No jobs without yearly salary data
+    - Not strictly Data Engineer but also vatiations (Senior, Lead, etc.)
 */
 
 WITH total_jobs AS (
@@ -74,12 +68,33 @@ FROM
     total_jobs, 
     DE_jobs;
 
+-- Q1D: What is the respective share of high, medium and low salary Data Engineer positions?
+
+-- Q1E: What is the average AND median salary for Data Engineer roles?
+
 /*
-Additional Question (AQ) 2:
-    Find the number of open positions for all remote job postings
-    Present their shares (percentiles) to all remote job postings
-    Identify skills associated with such job postings (using STRING_AGG)
+Q1F optimal solution: CTE + Window function OVER()
+    Additional condition: Identify skills associated with such job postings
 */
+
+WITH remote_jobs AS (
+    SELECT 
+        p.job_title_short,
+        COUNT(*) AS remote_postings
+    FROM job_postings_fact AS p
+    WHERE 
+        p.job_work_from_home = true
+    GROUP BY p.job_title_short
+)
+
+SELECT 
+    rj.*,
+    ROUND((remote_postings * 100) / SUM(remote_postings) OVER(), 3) || '%' AS job_share
+FROM remote_jobs AS rj
+ORDER BY 
+    ROUND((remote_postings * 100) / SUM(remote_postings) OVER(), 3) DESC;
+
+-- 1QF: Alternative solution: 2 CTEs + CROSS JOIN + STRING_AGG for skills:
 
 WITH remote_jobs AS (
     SELECT 
