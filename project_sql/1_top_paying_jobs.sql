@@ -68,13 +68,133 @@ FROM
     total_jobs, 
     DE_jobs;
 
--- Q1D: What is the respective share of high, medium and low salary Data Engineer positions?
+-- Q1D: Find the respective shares of High, Medium and Low salary Data Engineer jobs
+ 
+WITH salary_tier_stats AS (
+    SELECT 
+        (CASE
+            WHEN salary_year_avg < 70000 THEN 'Lower'
+            WHEN salary_year_avg BETWEEN 70000 AND 120000 THEN 'Medium'
+            ELSE 'High'
+            END) AS DE_salary_tier,
+        COUNT(job_id) AS salary_tier_count
+    FROM job_postings_fact
+    WHERE   
+        job_title_short LIKE '%Data Engineer%'
+        AND salary_year_avg IS NOT NULL
+    GROUP BY DE_salary_tier
+)
 
--- Q1E: What is the average AND median salary for Data Engineer roles?
+SELECT 
+    ss.*,
+    ROUND(ss.salary_tier_count * 100 / SUM(ss.salary_tier_count) OVER (), 3) || ' % ' AS salary_tier_share
+FROM 
+    salary_tier_stats ss
+ORDER BY 
+    ROUND(ss.salary_tier_count * 100 / SUM(ss.salary_tier_count) OVER (), 3) DESC;
 
 /*
-Q1F optimal solution: CTE + Window function OVER()
-    Additional condition: Identify skills associated with such job postings
+Q1E: What is the average AND median salary for Data Engineer roles?
+Additional conditions: 
+- identify separate Average and Median values for EACH of DE salary tiers (Low, Mid, High)
+- focus on remote DE roles;
+*/
+
+-- Q1E Solution 1: Average and Median for ALL DE remote jobs:
+
+SELECT
+    COUNT(job_id) AS de_job_count,
+    ROUND(AVG(salary_year_avg)) AS avg_salary,
+    PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY salary_year_avg) AS median_salary
+FROM job_postings_fact
+WHERE 
+    job_title_short LIKE '%Data Engineer%'
+    AND salary_year_avg IS NOT NULL
+    -- AND job_work_from_home = true -- additional parameter
+ORDER BY avg_salary DESC;
+
+-- Alternative solution with a CTE:
+
+WITH de_jobs AS (
+    SELECT *
+    FROM job_postings_fact
+    WHERE 
+        job_title_short LIKE '%Data Engineer%'
+        AND salary_year_avg IS NOT NULL
+        AND job_work_from_home = true -- additional parameter
+    )
+
+SELECT
+    COUNT(de_jobs) AS de_job_count,
+    ROUND(AVG(salary_year_avg)) AS avg_salary,
+    PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY salary_year_avg) AS median_salary
+FROM de_jobs
+ORDER BY avg_salary DESC;
+
+-- Additional condition: compare DE AVG and MEDIAN salaries with the ones for ALL jobs
+-- Solution instruments: CTEs + CROSS JOIN + PERCENTILE_CONT
+
+WITH de_job_stats AS (
+    SELECT
+        COUNT(job_id) AS de_job_count,
+        ROUND(AVG(salary_year_avg)) AS de_avg_salary,
+        PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY salary_year_avg) AS de_median_salary
+    FROM job_postings_fact
+    WHERE 
+        job_title_short LIKE '%Data Engineer%'
+        AND salary_year_avg IS NOT NULL -- NULL salaries are out of scope
+        -- AND job_work_from_home = true -- additional parameter
+),
+
+    total_job_stats AS (
+    SELECT
+        COUNT(job_id) AS total_job_count,
+        ROUND(AVG(salary_year_avg)) AS total_avg_salary,
+        PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY salary_year_avg) AS total_median_salary
+    FROM job_postings_fact
+    WHERE 
+        salary_year_avg IS NOT NULL
+        -- AND job_work_from_home = true -- additional parameter
+    )
+
+SELECT
+    ROUND(dj.de_job_count * 100 / tj.total_job_count, 2) || '% ' AS de_job_share,
+    ROUND(dj.de_avg_salary * 100 / tj.total_avg_salary) || '% ' AS avg_salary_correlation,
+    ROUND(dj.de_median_salary * 100 / tj.total_median_salary) || '% ' AS median_salary_correlation
+FROM 
+    de_job_stats AS dj 
+    CROSS JOIN total_job_stats AS tj;
+
+-- Q1E Solution 2: AVERAGE and MEDIAN values for for EACH DE salary tier (Low, Mid, High):
+
+WITH salary_tier_stats AS (
+    SELECT 
+        (CASE
+            WHEN salary_year_avg < 70000 THEN 'Lower'
+            WHEN salary_year_avg BETWEEN 70000 AND 120000 THEN 'Medium'
+            ELSE 'High'
+            END) AS de_salary_tier,
+        salary_year_avg
+    FROM job_postings_fact
+    WHERE   
+        job_title_short LIKE '%Data Engineer%'
+        AND salary_year_avg IS NOT NULL
+)
+
+SELECT 
+    de_salary_tier,
+    COUNT(*) AS salary_tier_count,
+    ROUND(AVG(salary_year_avg)) AS average_salary,
+    PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY salary_year_avg) as median_salary
+FROM 
+    salary_tier_stats AS ss
+GROUP BY
+    de_salary_tier
+ORDER BY average_salary DESC;
+
+/*
+Q1F OPTIMAL solution: CTE + Window function OVER()
+Additional condition: Identify skills associated with such job postings
 */
 
 WITH remote_jobs AS (
@@ -94,7 +214,7 @@ FROM remote_jobs AS rj
 ORDER BY 
     ROUND((remote_postings * 100) / SUM(remote_postings) OVER(), 3) DESC;
 
--- 1QF: Alternative solution: 2 CTEs + CROSS JOIN + STRING_AGG for skills:
+-- Q1F: Alternative solution: 2 CTEs + CROSS JOIN + STRING_AGG for skills:
 
 WITH remote_jobs AS (
     SELECT 
