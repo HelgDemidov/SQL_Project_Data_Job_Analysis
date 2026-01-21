@@ -1,13 +1,13 @@
 /*
 Question 3: Identify most in-demand skills for Data Engineer (DE)
     - Join job postings to inner join table similarly to query 2
-    - Identify the top-5 in-demand skills for Data Engineer job (including Senior DE, Chief DE, Lead DE, etc.)
+    - Identify the top-10 in-demand skills for Data Engineer job (including Senior DE, Chief DE, Lead DE, etc.)
     - Cover all job postings (whichever has skills associated with it in the dataset)
-    - ADDITIONAL: identify what the SHARE (percentile, %) of each of the top-5 skills most often required for Data Engineers
+    - ADDITIONAL: identify what the SHARE (percentile, %) of each of the top-10 skills most often required for Data Engineers
     is in relation to ALL Data Engineer job postings
 */
 
-WITH skill_stats AS (
+WITH de_skill_stats AS (
     SELECT
         s.skills AS skill_name,
         s.type AS skill_type,
@@ -19,13 +19,13 @@ WITH skill_stats AS (
             sj.job_id = p.job_id 
         WHERE 
             job_title_short LIKE '%Data Engineer%'
-         -- AND p.job_work_from_home = true -- optional parameter: remote jobs
-         -- AND salary_year_avg > 80000 -- optional parameter: Medium+ paid jobs
+           -- AND p.job_work_from_home = true -- optional parameter: remote jobs
+           -- AND salary_year_avg > 80000 -- optional parameter: Medium+ paid jobs
     GROUP BY 
         s.type,
         s.skills
     ORDER BY related_jobs DESC
-    LIMIT 5
+    LIMIT 10
 ),
 
     de_job_stats AS (
@@ -33,15 +33,15 @@ WITH skill_stats AS (
         COUNT(DISTINCT job_id) AS total_de_jobs
     FROM job_postings_fact
     WHERE job_title_short LIKE '%Data Engineer%'
-     -- AND job_work_from_home = true -- optional parameter: remote jobs
-     -- AND salary_year_avg > 80000 -- optional parameter: Medium+ paid jobs
+       -- AND job_work_from_home = true -- optional parameter: remote jobs
+       -- AND salary_year_avg > 80000 -- optional parameter: Medium+ paid jobs
     )
 
 SELECT 
     ss.*,
     ROUND((ss.related_jobs::numeric / djs.total_de_jobs) * 100, 3) || '%' AS skill_share
 FROM 
-    skill_stats ss CROSS JOIN de_job_stats djs
+    de_skill_stats ss CROSS JOIN de_job_stats djs
 GROUP BY 
     ss.skill_name,
     ss.skill_type, 

@@ -1,6 +1,6 @@
-/* Task 2:
-Identify skills required for the top-paying Data Envineer jobs
-(the jobs that w identified when solving Question 1)
+/* Quesion 2 (Q2):
+Identify skills required for the top-paying Data Engineer jobs
+(the jobs that we identified when solving Question 1)
 */
 
 SELECT 

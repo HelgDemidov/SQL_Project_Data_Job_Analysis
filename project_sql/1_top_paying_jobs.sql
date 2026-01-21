@@ -194,12 +194,11 @@ ORDER BY average_salary DESC;
 
 /*
 Q1F OPTIMAL solution: CTE + Window function OVER()
-Additional condition: Identify skills associated with such job postings
 */
 
 WITH remote_jobs AS (
     SELECT 
-        p.job_title_short,
+        p.job_title_short, 
         COUNT(*) AS remote_postings
     FROM job_postings_fact AS p
     WHERE 
@@ -215,7 +214,8 @@ ORDER BY
     ROUND((remote_postings * 100) / SUM(remote_postings) OVER(), 3) DESC;
 
 -- Q1F: Alternative solution: 2 CTEs + CROSS JOIN + STRING_AGG for skills:
-
+-- Additional condition: Identify skills associated with such job postings
+ 
 WITH remote_jobs AS (
     SELECT 
         p.job_title_short,
