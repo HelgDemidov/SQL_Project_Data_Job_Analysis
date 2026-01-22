@@ -3,21 +3,20 @@ Question 5 (Q5): Identify most optimal skills to learn for a Data Engineer (DE) 
 Key parameters:
     a) Identify top high-paying skills for DE position
     b) Focus on skills that are frequently required in the market
-    b) Optional: Focus on remote positions with specified salaries
-Essentially, we have to run a two-axial analysis: 
-financial value of a skill combined with high demand for it in the market
+    c) Optional: Focus on remote positions with specified salaries
+Essentially, we have to run a two-axial analysis and match financial value of a skill against demand for it in the market
 */
 
 -- Solution 1 (suboptimal): Total demand capacity (TDC) based approach
--- skill_count * median_salary_for_skill = total demand capacity (TDC) per skill 
+-- (skill_count * median_salary_for_skill) = total demand capacity (TDC) per skill 
 -- by ranking results by TDC we get the optimal skills for a Data Engineer role
 
 WITH skill_metrics AS ( -- CTE introduced to avoid double calculation in ORDER BY clause
     SELECT
         s.skills AS skill_name,
-        COUNT(sj.skill_id) AS skill_count,
-        ROUND(AVG(p.salary_year_avg)) AS avg_salary,
-        ROUND(PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY p.salary_year_avg)) AS median_salary
+        COUNT(sj.skill_id) AS skill_demand,
+        ROUND(PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY p.salary_year_avg)) AS median_salary,
+        ROW_NUMBER() OVER (ORDER BY (COUNT(sj.skill_id) * ROUND(PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY p.salary_year_avg))) DESC) AS combined_rank
     FROM
         job_postings_fact AS p 
         INNER JOIN skills_job_dim AS sj ON
@@ -36,5 +35,5 @@ WITH skill_metrics AS ( -- CTE introduced to avoid double calculation in ORDER B
 
 SELECT sm.*
 FROM skill_metrics AS sm
-ORDER BY sm.median_salary * sm.skill_count DESC
+ORDER BY combined_rank
 LIMIT 10;
