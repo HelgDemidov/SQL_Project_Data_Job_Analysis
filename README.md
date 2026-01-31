@@ -4,11 +4,16 @@
 ### 📊 **[Click Here to View the Interactive Dashboard](https://helgdemidov.github.io/SQL_Project_Data_Job_Analysis/)**
 ---
 
-A SQL-driven exploration of the data engineering job landscape, examining 231,000+ job postings to uncover market trends, skill demands, and salary insights.
+Explore the complete analysis through our interactive dashboard featuring real-time visualizations and insights from 231,000+ job postings.
 
-![SQL](https://img.shields.io/badge/SQL-PostgreSQL-336791?style=flat&logo=postgresql&logoColor=white)
-![Data Analysis](https://img.shields.io/badge/Analysis-Job%20Market-0EA5E9)
-![Status](https://img.shields.io/badge/Status-Complete-22C55E)
+---
+
+### Dashboard Features
+
+| 📊 Market Overview | 💰 Salary Analysis | 🎯 Optimal Skills |
+|:------------------:|:------------------:|:-----------------:|
+| ![Market](26-01%20DE%20Study%20Screenshot%201.png) | ![Salary](26-01%20DE%20Study%20Screenshot%202.png) | ![Skills](26-01%20DE%20Study%20Screenshot%203.png) |
+| Remote job distribution | Top-paying skills | Demand vs salary matrix |
 
 ---
 
