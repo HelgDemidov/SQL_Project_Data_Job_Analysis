@@ -14,7 +14,7 @@ A SQL-driven exploration of the data engineering job landscape, examining 231,00
 
 | 📊 Market Overview | 💰 Salary Analysis | 🎯 Optimal Skills |
 |:------------------:|:------------------:|:-----------------:|
-| ![Market](dashboard_market_overview.png) | ![Salary](dashboard_salary_analysis.png) | ![Skills](dashboard_optimal_skills.png) |
+| ![Market](26-01_DE_Study_Screenshot_1.png) | ![Salary](26-01_DE_Study_Screenshot_2.png) | ![Skills](26-01_DE_Study_Screenshot_3.png) |
 | Remote job distribution | Top-paying skills | Demand vs salary matrix |
 
 ---
