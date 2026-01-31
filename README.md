@@ -188,16 +188,6 @@ Based on this analysis, here are evidence-based recommendations for data enginee
 
 ---
 
-## 📈 Visualizations
-
-*Dashboard visualization available in the repository showing:*
-- Remote job market distribution by role
-- Skills demand analysis with category breakdown
-- Salary vs. demand scatter plot
-- Top-paying positions comparison
-
----
-
 ## 🛠️ Technical Implementation
 
 ### SQL Queries Used
