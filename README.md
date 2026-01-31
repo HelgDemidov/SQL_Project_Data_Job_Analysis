@@ -10,6 +10,13 @@ A SQL-driven exploration of the data engineering job landscape, examining 231,00
 ![Data Analysis](https://img.shields.io/badge/Analysis-Job%20Market-0EA5E9)
 ![Status](https://img.shields.io/badge/Status-Complete-22C55E)
 
+### Dashboard Features
+
+| 📊 Market Overview | 💰 Salary Analysis | 🎯 Optimal Skills |
+|:------------------:|:------------------:|:-----------------:|
+| ![Market](dashboard_market_overview.png) | ![Salary](dashboard_salary_analysis.png) | ![Skills](dashboard_optimal_skills.png) |
+| Remote job distribution | Top-paying skills | Demand vs salary matrix |
+
 ---
 
 ## 📋 Project Overview
