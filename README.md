@@ -1,6 +1,10 @@
 # Data Engineer Job Market Analysis 2023
 
-> **A SQL-driven exploration of the data engineering job landscape, examining 231,000+ job postings to uncover market trends, skill demands, and salary insights.**
+---
+### 📊 **[Click Here to View the Interactive Dashboard](https://helgdemidov.github.io/SQL_Project_Data_Job_Analysis/)**
+---
+
+A SQL-driven exploration of the data engineering job landscape, examining 231,000+ job postings to uncover market trends, skill demands, and salary insights.
 
 ![SQL](https://img.shields.io/badge/SQL-PostgreSQL-336791?style=flat&logo=postgresql&logoColor=white)
 ![Data Analysis](https://img.shields.io/badge/Analysis-Job%20Market-0EA5E9)
