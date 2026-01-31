@@ -4,6 +4,37 @@
 ### 📊 **[Click Here to View the Interactive Dashboard](https://helgdemidov.github.io/SQL_Project_Data_Job_Analysis/)**
 ---
 
+Dashboard Preview
+<table>
+  <tr>
+    <td align="center">
+      <img src="dashboard_market_overview.png" alt="Market Overview" width="100%"/>
+      <br/>
+      <b>📊 Market Overview</b>
+      <br/>
+      Remote job distribution across data roles
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="dashboard_salary_analysis.png" alt="Salary Analysis" width="100%"/>
+      <br/>
+      <b>💰 Salary Analysis</b>
+      <br/>
+      Top 10 skills by median salary
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="dashboard_optimal_skills.png" alt="Optimal Skills" width="100%"/>
+      <br/>
+      <b>🎯 Optimal Skills</b>
+      <br/>
+      Demand vs salary matrix for strategic skill selection
+    </td>
+  </tr>
+</table>
+
 A SQL-driven exploration of the data engineering job landscape, examining 231,000+ job postings to uncover market trends, skill demands, and salary insights.
 
 ![SQL](https://img.shields.io/badge/SQL-PostgreSQL-336791?style=flat&logo=postgresql&logoColor=white)
