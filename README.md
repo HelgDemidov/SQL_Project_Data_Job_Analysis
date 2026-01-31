@@ -1,11 +1,11 @@
 # Data Engineer Job Market Analysis 2023
 
 ---
-### 📊 **[Click Here to View the Interactive Dashboard](https://helgdemidov.github.io/SQL_Project_Data_Job_Analysis/)**
----
-
 Explore the complete analysis through our interactive dashboard featuring real-time visualizations and insights from 231,000+ job postings.
 
+---
+
+### 📊 **[Click Here to View the Interactive Dashboard](https://helgdemidov.github.io/SQL_Project_Data_Job_Analysis/)**
 ---
 
 ### Dashboard Features
