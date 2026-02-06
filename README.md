@@ -3,7 +3,6 @@
 
 **Explore the complete analysis through our interactive dashboard featuring real-time visualizations and insights from 231,000+ job postings.**
 
----
 
 ## 🧱 **Introduction & Project Background: A Baby Step to Data Engineering**
 
