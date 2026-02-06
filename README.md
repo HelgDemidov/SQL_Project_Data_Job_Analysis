@@ -5,7 +5,7 @@
 **Explore the complete analysis through our interactive dashboard featuring real-time visualizations and insights from 231,000+ job postings.**
 
 ---
-##🧱 **Introduction & Project Background: From "Tutorial Hell" to Real Engineering**
+## 🧱 **Introduction & Project Background: From "Tutorial Hell" to Real Engineering**
 
 This project started as my personal "sandbox" to bridge the gap between watching tutorials and actually building things. I followed Luke Barousse's course to get the basics down, but I didn't want to just copy-paste code. I treated this as a full-scale engineering simulation: I set up a proper VS Code environment, managed my own Git repository, and ventured into front-end territory using LLM assistance to build an interactive visualization layer on top of my SQL analysis.
 
