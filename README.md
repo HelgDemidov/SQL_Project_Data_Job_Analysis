@@ -8,7 +8,7 @@
 
 This project started as my personal "sandbox" to bridge the gap between watching tutorials and actually building things. I followed Luke Barousse's course to get the basics down, but I didn't want to just copy-paste code. I treated this as a full-scale engineering simulation: I set up a proper VS Code environment, managed my own Git repository, and ventured into front-end territory using LLM assistance to build an interactive visualization layer on top of my SQL analysis.
 
-My goal here was to understand the full lifecycle of a data project—from raw CSVs to complex aggregations, and finally, to a public-facing dashboard hosted on GitHub Pages. This repo is my proof of concept that I can not only query data but also organize, document, and present it in a way that makes sense to real people. It’s my first step out of the classroom and into the field.
+My goal here was to understand the full lifecycle of a data project: from raw CSVs to complex aggregations, and finally, to a public-facing dashboard hosted on GitHub Pages. This repo is a proof of concept that I can not only query data but also organize, document, and present it in a way that makes sense to real people. It’s my first step out of the classroom and into the field.
 
 ---
 
