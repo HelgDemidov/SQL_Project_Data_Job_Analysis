@@ -1,6 +1,7 @@
 # Data Engineer Job Market Analysis 2023
 
 ---
+
 **Explore the complete analysis through our interactive dashboard featuring real-time visualizations and insights from 231,000+ job postings.**
 
 ---
