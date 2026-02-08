@@ -235,8 +235,8 @@ total_remote_jobs AS (
 SELECT 
     rj.job_title_short,
     rj.remote_postings,
-    ROUND((rj.remote_postings::numeric / tj.total_remote_postings) * 100, 3) || '%' AS job_share,
-    STRING_AGG(DISTINCT s.skills, ' / ') AS top_skills
+    ROUND((rj.remote_postings::numeric / tj.total_remote_postings) * 100, 3) || '%' AS job_share
+   
 FROM 
     remote_jobs AS rj 
         CROSS JOIN total_remote_jobs AS tj
